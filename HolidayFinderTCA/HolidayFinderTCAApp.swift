@@ -6,15 +6,33 @@
 //
 
 import SwiftUI
+import ComposableArchitecture
 
 @main
-struct HolidayFinderTCAApp: App {
-    let persistenceController = PersistenceController.shared
-
+struct HolidayFinderApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environment(\.managedObjectContext, persistenceController.container.viewContext)
+            let holidaySearchStore = Store(
+                initialState: HolidaySearchState(),
+                reducer: holidaySearchReducer,
+                environment: HolidaySearchEnvironment(
+                    mainQueue: DispatchQueue.main.eraseToAnyScheduler(),
+                    fetchVacationLocations: {
+                        Effect.task {
+                            do {
+                                let locations = try await NetworkService.shared.fetchAvailableCountries()
+                                return locations
+                            } catch {
+                                throw error
+                            }
+                        }
+                    }
+                )
+            )
+            
+            NavigationView {
+                HolidaySearchView(store: holidaySearchStore)
+            }
         }
     }
 }

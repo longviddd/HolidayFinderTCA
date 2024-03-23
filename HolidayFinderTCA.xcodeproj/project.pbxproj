@@ -8,21 +8,84 @@
 
 /* Begin PBXBuildFile section */
 		FD163BB12BA76F27001143A9 /* HolidayFinderTCAApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BB02BA76F27001143A9 /* HolidayFinderTCAApp.swift */; };
-		FD163BB32BA76F27001143A9 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BB22BA76F27001143A9 /* ContentView.swift */; };
 		FD163BB52BA76F28001143A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD163BB42BA76F28001143A9 /* Assets.xcassets */; };
 		FD163BB82BA76F28001143A9 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = FD163BB72BA76F28001143A9 /* Preview Assets.xcassets */; };
-		FD163BBA2BA76F28001143A9 /* Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BB92BA76F28001143A9 /* Persistence.swift */; };
 		FD163BBD2BA76F28001143A9 /* HolidayFinderTCA.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FD163BBB2BA76F28001143A9 /* HolidayFinderTCA.xcdatamodeld */; };
+		FD163BCD2BA77E4F001143A9 /* Airport.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BCC2BA77E4F001143A9 /* Airport.swift */; };
+		FD163BCF2BA77E76001143A9 /* Country.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BCE2BA77E76001143A9 /* Country.swift */; };
+		FD163BD12BA77E8C001143A9 /* Holiday.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BD02BA77E8C001143A9 /* Holiday.swift */; };
+		FD163BD42BA77ED0001143A9 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BD32BA77ED0001143A9 /* Extensions.swift */; };
+		FD163BD62BA782D1001143A9 /* VacationDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BD52BA782D1001143A9 /* VacationDetails.swift */; };
+		FD163BD82BA782E2001143A9 /* Flight.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BD72BA782E2001143A9 /* Flight.swift */; };
+		FD163BDA2BA78308001143A9 /* FlightResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BD92BA78308001143A9 /* FlightResponse.swift */; };
+		FD163BDC2BA78328001143A9 /* FlightOffer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BDB2BA78328001143A9 /* FlightOffer.swift */; };
+		FD163BDE2BA7834B001143A9 /* Itinerary.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BDD2BA7834B001143A9 /* Itinerary.swift */; };
+		FD163BE02BA78360001143A9 /* Segment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BDF2BA78360001143A9 /* Segment.swift */; };
+		FD163BE22BA78370001143A9 /* Price.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BE12BA78370001143A9 /* Price.swift */; };
+		FD163BE42BA78389001143A9 /* Meta.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BE32BA78389001143A9 /* Meta.swift */; };
+		FD163BE82BA783AF001143A9 /* Links.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BE72BA783AF001143A9 /* Links.swift */; };
+		FD163BEA2BA783CF001143A9 /* Fee.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BE92BA783CF001143A9 /* Fee.swift */; };
+		FD163BEC2BA783E0001143A9 /* Dictionaries.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BEB2BA783E0001143A9 /* Dictionaries.swift */; };
+		FD163BEE2BA783F5001143A9 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BED2BA783F5001143A9 /* Location.swift */; };
+		FD163BF02BA78408001143A9 /* FlightAirportDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BEF2BA78408001143A9 /* FlightAirportDetail.swift */; };
+		FD163BF22BA7841C001143A9 /* FlightEndPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BF12BA7841C001143A9 /* FlightEndPoint.swift */; };
+		FD163BF42BA7842B001143A9 /* Aircraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BF32BA7842B001143A9 /* Aircraft.swift */; };
+		FD163BF62BA78441001143A9 /* Operating.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BF52BA78441001143A9 /* Operating.swift */; };
+		FD163BF82BA78458001143A9 /* PricingOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BF72BA78458001143A9 /* PricingOptions.swift */; };
+		FD163BFA2BA78475001143A9 /* TravelerPricing.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BF92BA78475001143A9 /* TravelerPricing.swift */; };
+		FD163BFC2BA7848E001143A9 /* TravelerPrice.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BFB2BA7848E001143A9 /* TravelerPrice.swift */; };
+		FD163BFE2BA784A2001143A9 /* Tax.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BFD2BA784A2001143A9 /* Tax.swift */; };
+		FD163C002BA784B3001143A9 /* FareDetailsBySegment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163BFF2BA784B3001143A9 /* FareDetailsBySegment.swift */; };
+		FD163C022BA784C4001143A9 /* IncludedCheckedBags.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163C012BA784C4001143A9 /* IncludedCheckedBags.swift */; };
+		FD163C042BA784D5001143A9 /* co2Emission.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163C032BA784D5001143A9 /* co2Emission.swift */; };
+		FD163C152BA7A251001143A9 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163C142BA7A251001143A9 /* NetworkService.swift */; };
+		FD163C1E2BA7B4BE001143A9 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = FD163C1D2BA7B4BE001143A9 /* ComposableArchitecture */; };
+		FD163C202BA7B6AC001143A9 /* HolidaySearchState.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163C1F2BA7B6AC001143A9 /* HolidaySearchState.swift */; };
+		FD163C222BA7B6BB001143A9 /* HolidaySearchAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163C212BA7B6BB001143A9 /* HolidaySearchAction.swift */; };
+		FD163C242BA7B6DC001143A9 /* HolidaySearchEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163C232BA7B6DC001143A9 /* HolidaySearchEnvironment.swift */; };
+		FD163C262BA7B6E7001143A9 /* HolidaySearchReducer.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163C252BA7B6E7001143A9 /* HolidaySearchReducer.swift */; };
+		FD163C282BA7B702001143A9 /* HolidaySearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD163C272BA7B702001143A9 /* HolidaySearchView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		FD163BAD2BA76F27001143A9 /* HolidayFinderTCA.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = HolidayFinderTCA.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FD163BB02BA76F27001143A9 /* HolidayFinderTCAApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidayFinderTCAApp.swift; sourceTree = "<group>"; };
-		FD163BB22BA76F27001143A9 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FD163BB42BA76F28001143A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FD163BB72BA76F28001143A9 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		FD163BB92BA76F28001143A9 /* Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Persistence.swift; sourceTree = "<group>"; };
 		FD163BBC2BA76F28001143A9 /* HolidayFinderTCA.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = HolidayFinderTCA.xcdatamodel; sourceTree = "<group>"; };
+		FD163BCC2BA77E4F001143A9 /* Airport.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Airport.swift; sourceTree = "<group>"; };
+		FD163BCE2BA77E76001143A9 /* Country.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Country.swift; sourceTree = "<group>"; };
+		FD163BD02BA77E8C001143A9 /* Holiday.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Holiday.swift; sourceTree = "<group>"; };
+		FD163BD32BA77ED0001143A9 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		FD163BD52BA782D1001143A9 /* VacationDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VacationDetails.swift; sourceTree = "<group>"; };
+		FD163BD72BA782E2001143A9 /* Flight.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flight.swift; sourceTree = "<group>"; };
+		FD163BD92BA78308001143A9 /* FlightResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightResponse.swift; sourceTree = "<group>"; };
+		FD163BDB2BA78328001143A9 /* FlightOffer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightOffer.swift; sourceTree = "<group>"; };
+		FD163BDD2BA7834B001143A9 /* Itinerary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Itinerary.swift; sourceTree = "<group>"; };
+		FD163BDF2BA78360001143A9 /* Segment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Segment.swift; sourceTree = "<group>"; };
+		FD163BE12BA78370001143A9 /* Price.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Price.swift; sourceTree = "<group>"; };
+		FD163BE32BA78389001143A9 /* Meta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meta.swift; sourceTree = "<group>"; };
+		FD163BE72BA783AF001143A9 /* Links.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Links.swift; sourceTree = "<group>"; };
+		FD163BE92BA783CF001143A9 /* Fee.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fee.swift; sourceTree = "<group>"; };
+		FD163BEB2BA783E0001143A9 /* Dictionaries.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dictionaries.swift; sourceTree = "<group>"; };
+		FD163BED2BA783F5001143A9 /* Location.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
+		FD163BEF2BA78408001143A9 /* FlightAirportDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightAirportDetail.swift; sourceTree = "<group>"; };
+		FD163BF12BA7841C001143A9 /* FlightEndPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlightEndPoint.swift; sourceTree = "<group>"; };
+		FD163BF32BA7842B001143A9 /* Aircraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aircraft.swift; sourceTree = "<group>"; };
+		FD163BF52BA78441001143A9 /* Operating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operating.swift; sourceTree = "<group>"; };
+		FD163BF72BA78458001143A9 /* PricingOptions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PricingOptions.swift; sourceTree = "<group>"; };
+		FD163BF92BA78475001143A9 /* TravelerPricing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelerPricing.swift; sourceTree = "<group>"; };
+		FD163BFB2BA7848E001143A9 /* TravelerPrice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelerPrice.swift; sourceTree = "<group>"; };
+		FD163BFD2BA784A2001143A9 /* Tax.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tax.swift; sourceTree = "<group>"; };
+		FD163BFF2BA784B3001143A9 /* FareDetailsBySegment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FareDetailsBySegment.swift; sourceTree = "<group>"; };
+		FD163C012BA784C4001143A9 /* IncludedCheckedBags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncludedCheckedBags.swift; sourceTree = "<group>"; };
+		FD163C032BA784D5001143A9 /* co2Emission.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = co2Emission.swift; sourceTree = "<group>"; };
+		FD163C142BA7A251001143A9 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
+		FD163C1F2BA7B6AC001143A9 /* HolidaySearchState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidaySearchState.swift; sourceTree = "<group>"; };
+		FD163C212BA7B6BB001143A9 /* HolidaySearchAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidaySearchAction.swift; sourceTree = "<group>"; };
+		FD163C232BA7B6DC001143A9 /* HolidaySearchEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidaySearchEnvironment.swift; sourceTree = "<group>"; };
+		FD163C252BA7B6E7001143A9 /* HolidaySearchReducer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidaySearchReducer.swift; sourceTree = "<group>"; };
+		FD163C272BA7B702001143A9 /* HolidaySearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HolidaySearchView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -30,6 +93,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FD163C1E2BA7B4BE001143A9 /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,10 +119,13 @@
 		FD163BAF2BA76F27001143A9 /* HolidayFinderTCA */ = {
 			isa = PBXGroup;
 			children = (
+				FD163BCA2BA77BA9001143A9 /* SupportingFiles */,
+				FD163BC92BA77BA2001143A9 /* Resources */,
+				FD163BC82BA77B97001143A9 /* Features */,
+				FD163BC72BA77B8D001143A9 /* Core */,
+				FD163BC62BA77B7F001143A9 /* Application */,
 				FD163BB02BA76F27001143A9 /* HolidayFinderTCAApp.swift */,
-				FD163BB22BA76F27001143A9 /* ContentView.swift */,
 				FD163BB42BA76F28001143A9 /* Assets.xcassets */,
-				FD163BB92BA76F28001143A9 /* Persistence.swift */,
 				FD163BBB2BA76F28001143A9 /* HolidayFinderTCA.xcdatamodeld */,
 				FD163BB62BA76F28001143A9 /* Preview Content */,
 			);
@@ -71,6 +138,106 @@
 				FD163BB72BA76F28001143A9 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		FD163BC62BA77B7F001143A9 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		FD163BC72BA77B8D001143A9 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				FD163C132BA7A245001143A9 /* NetworkService */,
+				FD163BCB2BA77E3F001143A9 /* Models */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		FD163BC82BA77B97001143A9 /* Features */ = {
+			isa = PBXGroup;
+			children = (
+				FD163C052BA78595001143A9 /* HolidaySearch */,
+			);
+			path = Features;
+			sourceTree = "<group>";
+		};
+		FD163BC92BA77BA2001143A9 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		FD163BCA2BA77BA9001143A9 /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				FD163BD22BA77EC1001143A9 /* Extensions */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		FD163BCB2BA77E3F001143A9 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				FD163BCC2BA77E4F001143A9 /* Airport.swift */,
+				FD163BCE2BA77E76001143A9 /* Country.swift */,
+				FD163BD02BA77E8C001143A9 /* Holiday.swift */,
+				FD163BD52BA782D1001143A9 /* VacationDetails.swift */,
+				FD163BD72BA782E2001143A9 /* Flight.swift */,
+				FD163BD92BA78308001143A9 /* FlightResponse.swift */,
+				FD163BDB2BA78328001143A9 /* FlightOffer.swift */,
+				FD163BDD2BA7834B001143A9 /* Itinerary.swift */,
+				FD163BDF2BA78360001143A9 /* Segment.swift */,
+				FD163BE12BA78370001143A9 /* Price.swift */,
+				FD163BE32BA78389001143A9 /* Meta.swift */,
+				FD163BE72BA783AF001143A9 /* Links.swift */,
+				FD163BE92BA783CF001143A9 /* Fee.swift */,
+				FD163BEB2BA783E0001143A9 /* Dictionaries.swift */,
+				FD163BED2BA783F5001143A9 /* Location.swift */,
+				FD163BEF2BA78408001143A9 /* FlightAirportDetail.swift */,
+				FD163BF12BA7841C001143A9 /* FlightEndPoint.swift */,
+				FD163BF32BA7842B001143A9 /* Aircraft.swift */,
+				FD163BF52BA78441001143A9 /* Operating.swift */,
+				FD163BF72BA78458001143A9 /* PricingOptions.swift */,
+				FD163BF92BA78475001143A9 /* TravelerPricing.swift */,
+				FD163BFB2BA7848E001143A9 /* TravelerPrice.swift */,
+				FD163BFD2BA784A2001143A9 /* Tax.swift */,
+				FD163BFF2BA784B3001143A9 /* FareDetailsBySegment.swift */,
+				FD163C012BA784C4001143A9 /* IncludedCheckedBags.swift */,
+				FD163C032BA784D5001143A9 /* co2Emission.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		FD163BD22BA77EC1001143A9 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				FD163BD32BA77ED0001143A9 /* Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		FD163C052BA78595001143A9 /* HolidaySearch */ = {
+			isa = PBXGroup;
+			children = (
+				FD163C1F2BA7B6AC001143A9 /* HolidaySearchState.swift */,
+				FD163C212BA7B6BB001143A9 /* HolidaySearchAction.swift */,
+				FD163C232BA7B6DC001143A9 /* HolidaySearchEnvironment.swift */,
+				FD163C252BA7B6E7001143A9 /* HolidaySearchReducer.swift */,
+				FD163C272BA7B702001143A9 /* HolidaySearchView.swift */,
+			);
+			path = HolidaySearch;
+			sourceTree = "<group>";
+		};
+		FD163C132BA7A245001143A9 /* NetworkService */ = {
+			isa = PBXGroup;
+			children = (
+				FD163C142BA7A251001143A9 /* NetworkService.swift */,
+			);
+			path = NetworkService;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -89,6 +256,9 @@
 			dependencies = (
 			);
 			name = HolidayFinderTCA;
+			packageProductDependencies = (
+				FD163C1D2BA7B4BE001143A9 /* ComposableArchitecture */,
+			);
 			productName = HolidayFinderTCA;
 			productReference = FD163BAD2BA76F27001143A9 /* HolidayFinderTCA.app */;
 			productType = "com.apple.product-type.application";
@@ -117,6 +287,9 @@
 				Base,
 			);
 			mainGroup = FD163BA42BA76F27001143A9;
+			packageReferences = (
+				FD163C1C2BA7B4BE001143A9 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
+			);
 			productRefGroup = FD163BAE2BA76F27001143A9 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -143,10 +316,41 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD163BBA2BA76F28001143A9 /* Persistence.swift in Sources */,
-				FD163BB32BA76F27001143A9 /* ContentView.swift in Sources */,
+				FD163BD82BA782E2001143A9 /* Flight.swift in Sources */,
+				FD163BE22BA78370001143A9 /* Price.swift in Sources */,
+				FD163BFA2BA78475001143A9 /* TravelerPricing.swift in Sources */,
+				FD163C282BA7B702001143A9 /* HolidaySearchView.swift in Sources */,
+				FD163BE02BA78360001143A9 /* Segment.swift in Sources */,
+				FD163BF42BA7842B001143A9 /* Aircraft.swift in Sources */,
+				FD163BDE2BA7834B001143A9 /* Itinerary.swift in Sources */,
+				FD163BD12BA77E8C001143A9 /* Holiday.swift in Sources */,
+				FD163BDC2BA78328001143A9 /* FlightOffer.swift in Sources */,
+				FD163BF82BA78458001143A9 /* PricingOptions.swift in Sources */,
+				FD163C242BA7B6DC001143A9 /* HolidaySearchEnvironment.swift in Sources */,
+				FD163BF62BA78441001143A9 /* Operating.swift in Sources */,
+				FD163BFC2BA7848E001143A9 /* TravelerPrice.swift in Sources */,
+				FD163BEA2BA783CF001143A9 /* Fee.swift in Sources */,
+				FD163BE82BA783AF001143A9 /* Links.swift in Sources */,
+				FD163BEC2BA783E0001143A9 /* Dictionaries.swift in Sources */,
+				FD163C202BA7B6AC001143A9 /* HolidaySearchState.swift in Sources */,
 				FD163BB12BA76F27001143A9 /* HolidayFinderTCAApp.swift in Sources */,
+				FD163BE42BA78389001143A9 /* Meta.swift in Sources */,
+				FD163BD62BA782D1001143A9 /* VacationDetails.swift in Sources */,
+				FD163C262BA7B6E7001143A9 /* HolidaySearchReducer.swift in Sources */,
+				FD163C222BA7B6BB001143A9 /* HolidaySearchAction.swift in Sources */,
+				FD163BCD2BA77E4F001143A9 /* Airport.swift in Sources */,
+				FD163C152BA7A251001143A9 /* NetworkService.swift in Sources */,
+				FD163BEE2BA783F5001143A9 /* Location.swift in Sources */,
+				FD163BCF2BA77E76001143A9 /* Country.swift in Sources */,
 				FD163BBD2BA76F28001143A9 /* HolidayFinderTCA.xcdatamodeld in Sources */,
+				FD163BDA2BA78308001143A9 /* FlightResponse.swift in Sources */,
+				FD163C042BA784D5001143A9 /* co2Emission.swift in Sources */,
+				FD163BF02BA78408001143A9 /* FlightAirportDetail.swift in Sources */,
+				FD163BFE2BA784A2001143A9 /* Tax.swift in Sources */,
+				FD163BD42BA77ED0001143A9 /* Extensions.swift in Sources */,
+				FD163BF22BA7841C001143A9 /* FlightEndPoint.swift in Sources */,
+				FD163C002BA784B3001143A9 /* FareDetailsBySegment.swift in Sources */,
+				FD163C022BA784C4001143A9 /* IncludedCheckedBags.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -347,6 +551,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		FD163C1C2BA7B4BE001143A9 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
+			requirement = {
+				kind = exactVersion;
+				version = 0.40.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		FD163C1D2BA7B4BE001143A9 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = FD163C1C2BA7B4BE001143A9 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		FD163BBB2BA76F28001143A9 /* HolidayFinderTCA.xcdatamodeld */ = {
