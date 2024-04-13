@@ -10,8 +10,10 @@ struct FlightResponse: Codable {
     let meta: Meta?
     let data: [FlightOffer]
     let dictionaries: Dictionaries?
+    
 }
-struct FlightResponsePrice: Codable {
+struct FlightResponsePrice: Codable, Identifiable {
+    let id = UUID()
     let data: FlightResponsePriceData
     let dictionaries: Dictionaries?
     

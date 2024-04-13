@@ -6,9 +6,9 @@
 //
 
 import Foundation
-struct FlightOffer: Codable {
-    let type: String
+struct FlightOffer: Codable, Identifiable {
     let id: String
+    let type: String
     let source: String
     let instantTicketingRequired: Bool
     let nonHomogeneous: Bool

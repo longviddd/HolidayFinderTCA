@@ -7,7 +7,8 @@
 
 import Foundation
 
-struct VacationDetails: Codable {
+struct VacationDetails: Codable, Identifiable {
+    var id : UUID
     var originAirport: String
     var destinationAirport: String
     var startDate: Date

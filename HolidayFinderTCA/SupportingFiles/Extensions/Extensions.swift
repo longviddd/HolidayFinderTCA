@@ -1,6 +1,6 @@
 //
 //  Extensions.swift
-//  HolidayFinderTCA
+//  HolidayFinder
 //
 //  Created by long on 2024-03-17.
 //
@@ -10,8 +10,7 @@ extension String {
     func toDate(withFormat format: String = "yyyy-MM-dd") -> Date? {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = format
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0)
+        dateFormatter.timeZone = TimeZone(secondsFromGMT: 0) // Set time zone to UTC
         return dateFormatter.date(from: self)
     }
 }
@@ -170,15 +169,34 @@ extension IncludedCheckedBags {
 }
 extension Holiday: Equatable {
     static func == (lhs: Holiday, rhs: Holiday) -> Bool {
-        lhs.id == rhs.id
+        lhs.date == rhs.date &&
+        lhs.localName == rhs.localName &&
+        lhs.name == rhs.name &&
+        lhs.countryCode == rhs.countryCode &&
+        lhs.fixed == rhs.fixed &&
+        lhs.global == rhs.global &&
+        lhs.counties == rhs.counties &&
+        lhs.launchYear == rhs.launchYear &&
+        lhs.types == rhs.types
+    }
+    static func isEqual(_ lhs: Holiday, _ rhs: Holiday) -> Bool {
+        return lhs.date == rhs.date &&
+        lhs.localName == rhs.localName &&
+        lhs.name == rhs.name &&
+        lhs.countryCode == rhs.countryCode &&
+        lhs.fixed == rhs.fixed &&
+        lhs.global == rhs.global &&
+        lhs.counties == rhs.counties &&
+        lhs.launchYear == rhs.launchYear &&
+        lhs.types == rhs.types
     }
 }
 extension VacationDetails: Equatable, Hashable{
     static func == (lhs: VacationDetails, rhs: VacationDetails) -> Bool {
         return lhs.originAirport == rhs.originAirport &&
-            lhs.destinationAirport == rhs.destinationAirport &&
-            lhs.startDate == rhs.startDate &&
-            lhs.endDate == rhs.endDate
+        lhs.destinationAirport == rhs.destinationAirport &&
+        lhs.startDate == rhs.startDate &&
+        lhs.endDate == rhs.endDate
     }
     
     func hash(into hasher: inout Hasher) {
@@ -199,30 +217,244 @@ extension FlightResponsePriceData: Equatable{
         return lhs.type == rhs.type && lhs.flightOffers == rhs.flightOffers
     }
 }
-extension FlightOffer: Equatable, Hashable{
-    static func == (lhs: FlightOffer, rhs: FlightOffer) -> Bool {
-        return lhs.id == rhs.id
-    }
+extension FlightOffer: Hashable{
     func hash(into hasher: inout Hasher) {
         hasher.combine(id)
     }
 }
-extension Dictionaries: Equatable{
-    static func == (lhs: Dictionaries, rhs: Dictionaries) -> Bool {
-        return lhs.locations == rhs.locations &&
-            lhs.aircraft == rhs.aircraft &&
-            lhs.currencies == rhs.currencies &&
-            lhs.carriers == rhs.carriers
-    }
-}
-extension Location: Equatable{
-    static func == (lhs: Location, rhs: Location) -> Bool {
-        return lhs.cityCode == rhs.cityCode && lhs.countryCode == rhs.countryCode
-    }
-}
+
 extension Country: Equatable{
     static func == (lhs: Country, rhs: Country) -> Bool {
         return lhs.name == rhs.name &&
-            lhs.countryCode == rhs.countryCode
+        lhs.countryCode == rhs.countryCode
+    }
+}
+
+extension Flight: Equatable {
+    static func == (lhs: Flight, rhs: Flight) -> Bool {
+        return lhs.outboundOriginAirport == rhs.outboundOriginAirport &&
+        lhs.outboundDestinationAirport == rhs.outboundDestinationAirport &&
+        lhs.outboundDuration == rhs.outboundDuration &&
+        lhs.returnOriginAirport == rhs.returnOriginAirport &&
+        lhs.returnDestinationAirport == rhs.returnDestinationAirport &&
+        lhs.returnDuration == rhs.returnDuration &&
+        lhs.price == rhs.price
+    }
+}
+
+// Make FlightResponse struct Equatable
+extension FlightResponse: Equatable {
+    static func == (lhs: FlightResponse, rhs: FlightResponse) -> Bool {
+        return lhs.meta == rhs.meta &&
+        lhs.data == rhs.data &&
+        lhs.dictionaries == rhs.dictionaries
+    }
+}
+
+
+extension Meta: Equatable {
+    static func == (lhs: Meta, rhs: Meta) -> Bool {
+        return lhs.count == rhs.count &&
+        lhs.links == rhs.links
+    }
+}
+
+
+extension Links: Equatable {
+    static func == (lhs: Links, rhs: Links) -> Bool {
+        return lhs.`self` == rhs.`self`
+    }
+}
+
+
+extension FlightOffer: Equatable {
+    static func == (lhs: FlightOffer, rhs: FlightOffer) -> Bool {
+        return lhs.id == rhs.id &&
+        lhs.type == rhs.type &&
+        lhs.source == rhs.source &&
+        lhs.instantTicketingRequired == rhs.instantTicketingRequired &&
+        lhs.nonHomogeneous == rhs.nonHomogeneous &&
+        lhs.oneWay == rhs.oneWay &&
+        lhs.lastTicketingDate == rhs.lastTicketingDate &&
+        lhs.lastTicketingDateTime == rhs.lastTicketingDateTime &&
+        lhs.numberOfBookableSeats == rhs.numberOfBookableSeats &&
+        lhs.itineraries == rhs.itineraries &&
+        lhs.price == rhs.price &&
+        lhs.pricingOptions == rhs.pricingOptions &&
+        lhs.validatingAirlineCodes == rhs.validatingAirlineCodes &&
+        lhs.travelerPricings == rhs.travelerPricings
+    }
+}
+
+
+extension Itinerary: Equatable {
+    static func == (lhs: Itinerary, rhs: Itinerary) -> Bool {
+        return lhs.duration == rhs.duration &&
+        lhs.segments == rhs.segments
+    }
+}
+
+
+extension Segment: Equatable {
+    static func == (lhs: Segment, rhs: Segment) -> Bool {
+        return lhs.departure == rhs.departure &&
+        lhs.arrival == rhs.arrival &&
+        lhs.carrierCode == rhs.carrierCode &&
+        lhs.number == rhs.number &&
+        lhs.aircraft == rhs.aircraft &&
+        lhs.operating == rhs.operating &&
+        lhs.duration == rhs.duration &&
+        lhs.id == rhs.id &&
+        lhs.numberOfStops == rhs.numberOfStops &&
+        lhs.blacklistedInEU == rhs.blacklistedInEU &&
+        lhs.co2Emissions == rhs.co2Emissions
+    }
+}
+
+
+extension FlightEndpoint: Equatable {
+    static func == (lhs: FlightEndpoint, rhs: FlightEndpoint) -> Bool {
+        return lhs.iataCode == rhs.iataCode &&
+        lhs.terminal == rhs.terminal &&
+        lhs.at == rhs.at
+    }
+}
+
+
+extension Aircraft: Equatable {
+    static func == (lhs: Aircraft, rhs: Aircraft) -> Bool {
+        return lhs.code == rhs.code
+    }
+}
+
+
+extension Operating: Equatable {
+    static func == (lhs: Operating, rhs: Operating) -> Bool {
+        return lhs.carrierCode == rhs.carrierCode
+    }
+}
+
+
+extension Price: Equatable {
+    static func == (lhs: Price, rhs: Price) -> Bool {
+        return lhs.currency == rhs.currency &&
+        lhs.total == rhs.total &&
+        lhs.base == rhs.base &&
+        lhs.fees == rhs.fees &&
+        lhs.grandTotal == rhs.grandTotal &&
+        lhs.billingCurrency == rhs.billingCurrency
+    }
+}
+
+
+extension Fee: Equatable {
+    static func == (lhs: Fee, rhs: Fee) -> Bool {
+        return lhs.amount == rhs.amount &&
+        lhs.type == rhs.type
+    }
+}
+
+
+extension Dictionaries: Equatable {
+    static func == (lhs: Dictionaries, rhs: Dictionaries) -> Bool {
+        return lhs.locations == rhs.locations &&
+        lhs.aircraft == rhs.aircraft &&
+        lhs.currencies == rhs.currencies &&
+        lhs.carriers == rhs.carriers
+    }
+}
+
+
+extension Location: Equatable {
+    static func == (lhs: Location, rhs: Location) -> Bool {
+        return lhs.cityCode == rhs.cityCode &&
+        lhs.countryCode == rhs.countryCode
+    }
+}
+
+
+extension PricingOptions: Equatable {
+    static func == (lhs: PricingOptions, rhs: PricingOptions) -> Bool {
+        return lhs.fareType == rhs.fareType &&
+        lhs.includedCheckedBagsOnly == rhs.includedCheckedBagsOnly
+    }
+}
+
+
+extension TravelerPricing: Equatable {
+    static func == (lhs: TravelerPricing, rhs: TravelerPricing) -> Bool {
+        return lhs.travelerId == rhs.travelerId &&
+        lhs.fareOption == rhs.fareOption &&
+        lhs.travelerType == rhs.travelerType &&
+        lhs.price == rhs.price &&
+        lhs.fareDetailsBySegment == rhs.fareDetailsBySegment
+    }
+}
+
+
+extension TravelerPrice: Equatable {
+    static func == (lhs: TravelerPrice, rhs: TravelerPrice) -> Bool {
+        return lhs.currency == rhs.currency &&
+        lhs.total == rhs.total &&
+        lhs.base == rhs.base &&
+        lhs.taxes == rhs.taxes
+    }
+}
+
+
+extension Tax: Equatable {
+    static func == (lhs: Tax, rhs: Tax) -> Bool {
+        return lhs.amount == rhs.amount &&
+        lhs.code == rhs.code
+    }
+}
+
+
+extension FareDetailsBySegment: Equatable {
+    static func == (lhs: FareDetailsBySegment, rhs: FareDetailsBySegment) -> Bool {
+        return lhs.segmentId == rhs.segmentId &&
+        lhs.cabin == rhs.cabin &&
+        lhs.fareBasis == rhs.fareBasis &&
+        lhs.class == rhs.class &&
+        lhs.includedCheckedBags == rhs.includedCheckedBags
+    }
+}
+
+
+extension IncludedCheckedBags: Equatable {
+    static func == (lhs: IncludedCheckedBags, rhs: IncludedCheckedBags) -> Bool {
+        return lhs.quantity == rhs.quantity &&
+        lhs.weight == rhs.weight &&
+        lhs.weightUnit == rhs.weightUnit
+    }
+}
+
+
+extension co2Emission: Equatable {
+    static func == (lhs: co2Emission, rhs: co2Emission) -> Bool {
+        return lhs.weight == rhs.weight &&
+        lhs.weightUnit == rhs.weightUnit &&
+        lhs.cabin == rhs.cabin
+    }
+}
+
+enum SaveStatus: Equatable, Identifiable {
+    case success
+    case failure
+    var id: Int {
+        switch self {
+        case .success:
+            return 0
+        case .failure:
+            return 1
+        }
+    }
+}
+
+extension UUID {
+    static var testUUID = UUID(uuidString: "12345678-1234-5678-1234-567812345678")!
+    
+    static func mockGenerate() -> UUID {
+        return testUUID
     }
 }

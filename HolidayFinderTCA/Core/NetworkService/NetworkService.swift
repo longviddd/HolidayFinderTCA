@@ -6,199 +6,144 @@
 //
 
 import Foundation
-class NetworkService {
-    static let shared = NetworkService() // Singleton instance
+import ComposableArchitecture
 
-    private let airportsURL = URL(string: "https://raw.githubusercontent.com/mwgg/Airports/master/airports.json")!
-    private let availableCountriesURL = URL(string: "https://date.nager.at/api/v3/AvailableCountries")!
-    private let authURL = URL(string: "https://api.amadeus.com/v1/security/oauth2/token")!
-    private let flightOffersURL = URL(string: "https://api.amadeus.com/v2/shopping/flight-offers")!
-    private init() {}
+struct NetworkService {
+    var fetchAirports: () -> Effect<[Airport], Never>
+    var fetchAvailableCountries: () -> Effect<[Country], Error>
+    var fetchHolidays: (String, String, Bool) -> Effect<[Holiday], Error>
+    var fetchAuthToken: () -> Effect<String, Error>
+    var fetchFlights: (String, String, String, String, Int, String) -> Effect<FlightResponse?, Error>
+    var fetchFlightDetails: (FlightOffer, String) -> Effect<FlightResponsePrice?, Error>
+}
 
-    func fetchAirports(completion: @escaping ([Airport]?) -> Void) {
-        URLSession.shared.dataTask(with: airportsURL) { data, response, error in
-            guard let data = data, error == nil else {
-                print("Error fetching airports: \(error?.localizedDescription ?? "Unknown error")")
-                DispatchQueue.main.async {
-                    completion(nil)
+extension NetworkService {
+    static let live = NetworkService(
+        fetchAirports: {
+            Effect.task {
+                let airportsURL = URL(string: "https://raw.githubusercontent.com/mwgg/Airports/master/airports.json")!
+                let (data, _) = try await URLSession.shared.data(from: airportsURL)
+                let airportsDict = try JSONDecoder().decode([String: Airport].self, from: data)
+                return airportsDict.compactMap { (key: String, value: Airport) in
+                    var airport = value
+                    airport.id = airport.id ?? UUID()
+                    return airport
                 }
-                return
-            }
-
-            let decoder = JSONDecoder()
-            do {
-                let airportsDict = try decoder.decode([String: Airport].self, from: data)
-                let airportsWithIATA = airportsDict.filter { $0.value.iata != "N/A" && !$0.value.iata.isEmpty &&  !$0.value.city.isEmpty}.map { $0.value }
-                DispatchQueue.main.async {
-                    completion(airportsWithIATA)
-                }
-            } catch {
-                print("Error decoding airports: \(error)")
-                DispatchQueue.main.async {
-                    completion(nil)
+                .filter { (airport: Airport) in
+                    airport.iata != nil && !(airport.iata ?? "").isEmpty && !(airport.city ?? "").isEmpty
                 }
             }
-        }.resume()
-    }
-    func fetchAvailableCountries() async throws -> [Country] {
-        let url = URL(string: "https://date.nager.at/api/v3/AvailableCountries")!
-        let (data, _) = try await URLSession.shared.data(from: url)
-        let decoder = JSONDecoder()
-        let countries = try decoder.decode([Country].self, from: data)
-        return countries
-    }
-    func fetchHolidays(forCountry countryCode: String, year: String, completion: @escaping ([Holiday]?) -> Void) {
-        let urlString = "https://date.nager.at/api/v3/PublicHolidays/\(year)/\(countryCode)"
-        guard let url = URL(string: urlString) else {
-            completion(nil)
-            return
-        }
-
-        URLSession.shared.dataTask(with: url) { data, response, error in
-            guard let data = data, error == nil else {
-                print("Error fetching holidays: \(error?.localizedDescription ?? "Unknown error")")
-                DispatchQueue.main.async {
-                    completion(nil)
+            .eraseToEffect()
+        },
+        fetchAvailableCountries: {
+            Effect.task {
+                let url = URL(string: "https://date.nager.at/api/v3/AvailableCountries")!
+                let (data, _) = try await URLSession.shared.data(from: url)
+                let countries = try JSONDecoder().decode([Country].self, from: data)
+                return countries
+            }
+            .eraseToEffect()
+        },
+        fetchHolidays: { countryCode, year, upcomingOnly in
+            Effect.task {
+                let urlString = "https://date.nager.at/api/v3/PublicHolidays/\(year)/\(countryCode)"
+                guard let url = URL(string: urlString) else {
+                    throw NSError(domain: "Invalid URL", code: 0, userInfo: nil)
                 }
-                return
-            }
-            let decoder = JSONDecoder()
-            do {
-                let holidays = try decoder.decode([Holiday].self, from: data)
-                DispatchQueue.main.async {
-                    completion(holidays)
+                let (data, response) = try await URLSession.shared.data(from: url)
+                guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+                    throw NSError(domain: "Invalid response", code: 0, userInfo: nil)
                 }
-            } catch {
-                print("Error decoding holidays: \(error)")
-                DispatchQueue.main.async {
-                    completion(nil)
+                var holidays = try JSONDecoder().decode([Holiday].self, from: data)
+                if upcomingOnly {
+                    let currentDate = Date()
+                    holidays = holidays.filter { holiday in
+                        guard let holidayDate = holiday.date.toDate() else { return false }
+                        return holidayDate >= currentDate
+                    }
                 }
+                return holidays
             }
-        }.resume()
-    }
-    func fetchAuthToken(completion: @escaping (Result<String, Error>) -> Void) {
-        let body = "grant_type=client_credentials&client_id=jUIvwPZ7ksDuC4IKGcNioT6ODeyjfRwz&client_secret=pQ6CG6lN0wk4Nkpk"
-        
-        var request = URLRequest(url: authURL)
-        request.httpMethod = "POST"
-        request.httpBody = body.data(using: .utf8)
-        request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                completion(.failure(error))
-                return
+            .eraseToEffect()
+        },
+        fetchAuthToken: {
+            Effect.task {
+                let authURL = URL(string: "https://api.amadeus.com/v1/security/oauth2/token")!
+                let body = "grant_type=client_credentials&client_id=jUIvwPZ7ksDuC4IKGcNioT6ODeyjfRwz&client_secret=pQ6CG6lN0wk4Nkpk"
+                var request = URLRequest(url: authURL)
+                request.httpMethod = "POST"
+                request.httpBody = body.data(using: .utf8)
+                request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
+                let (data, _) = try await URLSession.shared.data(for: request)
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                guard let accessToken = json?["access_token"] as? String else {
+                    throw NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid response format"])
+                }
+                return accessToken
             }
-            
-            guard let data = data else {
-                completion(.failure(NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "No data received"])))
-                return
-            }
-            
-            if let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-               let accessToken = json["access_token"] as? String {
-                completion(.success(accessToken))
-            } else {
-                completion(.failure(NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid response format"])))
-            }
-        }.resume()
-    }
-    
-    func fetchFlights(originAirport: String, destinationAirport: String, departureDate: String, returnDate: String, adults: Int, authToken: String, completion: @escaping (Result<FlightResponse?, Error>) -> Void) {
-        let urlString = "\(flightOffersURL)?originLocationCode=\(originAirport)&destinationLocationCode=\(destinationAirport)&departureDate=\(departureDate)&returnDate=\(returnDate)&adults=\(adults)"
-        
-        guard let url = URL(string: urlString) else {
-            completion(.failure(NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])))
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
-        
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-            
-            guard let data = data else {
-                completion(.failure(NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "No data received"])))
-                return
-            }
-            
-            do {
-                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-                   json["data"] != nil {
+            .eraseToEffect()
+        },
+        fetchFlights: { originAirport, destinationAirport, departureDate, returnDate, adults, authToken in
+            Effect.task {
+                let flightOffersURL = URL(string: "https://api.amadeus.com/v2/shopping/flight-offers")!
+                let urlString = "\(flightOffersURL)?originLocationCode=\(originAirport)&destinationLocationCode=\(destinationAirport)&departureDate=\(departureDate)&returnDate=\(returnDate)&adults=\(adults)"
+                guard let url = URL(string: urlString) else {
+                    throw NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "Invalid URL"])
+                }
+                var request = URLRequest(url: url)
+                request.setValue("Bearer \(authToken)", forHTTPHeaderField: "Authorization")
+                let (data, _) = try await URLSession.shared.data(for: request)
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                if json?["data"] != nil {
                     let flightResponse = try JSONDecoder().decode(FlightResponse.self, from: data)
-                    completion(.success(flightResponse))
+                    return flightResponse
                 } else {
-                    completion(.success(nil))
+                    return nil
                 }
-            } catch {
-                completion(.failure(error))
             }
-        }.resume()
-    }
-    func fetchFlightDetails(selectedFlightOffer: FlightOffer, token: String, completion: @escaping (Result<FlightResponsePrice?, Error>) -> Void) {
-        let url = URL(string: "https://api.amadeus.com/v1/shopping/flight-offers/pricing")!
-        
-        let priceFlightOffersBody: [String: Any] = [
-            "data": [
-                "type": "flight-offers-pricing",
-                "flightOffers": [
-                    [
-                        "type": selectedFlightOffer.type,
-                        "id": selectedFlightOffer.id,
-                        "source": selectedFlightOffer.source,
-                        "instantTicketingRequired": selectedFlightOffer.instantTicketingRequired,
-                        "nonHomogeneous": selectedFlightOffer.nonHomogeneous,
-                        "oneWay": selectedFlightOffer.oneWay,
-                        "lastTicketingDate": selectedFlightOffer.lastTicketingDate,
-                        "numberOfBookableSeats": selectedFlightOffer.numberOfBookableSeats,
-                        "itineraries": selectedFlightOffer.itineraries.map { $0.toDictionary() },
-                        "price": selectedFlightOffer.price.toDictionary(),
-                        "pricingOptions": selectedFlightOffer.pricingOptions.toDictionary(),
-                        "validatingAirlineCodes": selectedFlightOffer.validatingAirlineCodes,
-                        "travelerPricings": selectedFlightOffer.travelerPricings.map { $0.toDictionary() }
+            .eraseToEffect()
+        },
+        fetchFlightDetails: { selectedFlightOffer, token in
+            Effect.task {
+                let url = URL(string: "https://api.amadeus.com/v1/shopping/flight-offers/pricing")!
+                let priceFlightOffersBody: [String: Any] = [
+                    "data": [
+                        "type": "flight-offers-pricing",
+                        "flightOffers": [
+                            [
+                                "type": selectedFlightOffer.type,
+                                "id": selectedFlightOffer.id,
+                                "source": selectedFlightOffer.source,
+                                "instantTicketingRequired": selectedFlightOffer.instantTicketingRequired,
+                                "nonHomogeneous": selectedFlightOffer.nonHomogeneous,
+                                "oneWay": selectedFlightOffer.oneWay,
+                                "lastTicketingDate": selectedFlightOffer.lastTicketingDate,
+                                "numberOfBookableSeats": selectedFlightOffer.numberOfBookableSeats,
+                                "itineraries": selectedFlightOffer.itineraries.map { $0.toDictionary() },
+                                "price": selectedFlightOffer.price.toDictionary(),
+                                "pricingOptions": selectedFlightOffer.pricingOptions.toDictionary(),
+                                "validatingAirlineCodes": selectedFlightOffer.validatingAirlineCodes,
+                                "travelerPricings": selectedFlightOffer.travelerPricings.map { $0.toDictionary() }
+                            ]
+                        ]
                     ]
                 ]
-            ]
-        ]
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        request.httpBody = try? JSONSerialization.data(withJSONObject: priceFlightOffersBody, options: [])
-        if let body = request.httpBody,
-           let bodyString = String(data: body, encoding: .utf8) {
-            print("Request Body:")
-            print(bodyString)
-        }
-        URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-
-            guard let data = data else {
-                completion(.failure(NSError(domain: "", code: 0, userInfo: [NSLocalizedDescriptionKey: "No data received"])))
-                return
-            }
-
-            do {
-                if let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any],
-                   json["data"] != nil {
+                var request = URLRequest(url: url)
+                request.httpMethod = "POST"
+                request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+                request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+                request.httpBody = try? JSONSerialization.data(withJSONObject: priceFlightOffersBody, options: [])
+                let (data, _) = try await URLSession.shared.data(for: request)
+                let json = try JSONSerialization.jsonObject(with: data, options: []) as? [String: Any]
+                if json?["data"] != nil {
                     let flightResponse = try JSONDecoder().decode(FlightResponsePrice.self, from: data)
-                    completion(.success(flightResponse))
+                    print(flightResponse)
+                    return flightResponse
                 } else {
-                    print(try! JSONSerialization.jsonObject(with: data, options: []))
-                    completion(.success(nil))
+                    return nil
                 }
-            } catch {
-                completion(.failure(error))
             }
-        }.resume()
-    }
-
+            .eraseToEffect()
+        }
+    )
 }

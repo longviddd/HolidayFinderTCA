@@ -6,8 +6,7 @@
 //
 
 import Foundation
-struct Holiday: Identifiable, Codable {
-    let id: UUID = UUID()
+struct Holiday:  Codable{
     let date: String
     let localName: String
     let name: String
@@ -18,7 +17,4 @@ struct Holiday: Identifiable, Codable {
     let launchYear: Int?
     let types: [String]
 
-    enum CodingKeys: String, CodingKey {
-        case date, localName, name, countryCode, fixed, global, counties, launchYear, types
-    }
 }

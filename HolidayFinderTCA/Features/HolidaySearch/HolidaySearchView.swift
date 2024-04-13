@@ -2,16 +2,16 @@
 //  HolidaySearchView.swift
 //  HolidayFinderTCA
 //
-//  Created by long on 2024-03-17.
+//  Created by long on 2024-04-10.
 //
 
 import Foundation
+// HolidaySearchView.swift
 import SwiftUI
 import ComposableArchitecture
 
 struct HolidaySearchView: View {
     let store: Store<HolidaySearchState, HolidaySearchAction>
-    
     var body: some View {
         WithViewStore(store) { viewStore in
             VStack {
@@ -19,10 +19,10 @@ struct HolidaySearchView: View {
                     .font(.title)
                 Text("Find the best holidays tailored for you")
                     .font(.subheadline)
-             
+                
                 Picker("Select Vacation Location", selection: viewStore.binding(
                     get: \.vacationLocation,
-                    send: HolidaySearchAction.validateYearInput
+                    send: HolidaySearchAction.updateVacationLocation
                 )) {
                     if viewStore.vacationLocation.isEmpty {
                         Text("").tag(Optional<String>(nil))
@@ -32,50 +32,50 @@ struct HolidaySearchView: View {
                     }
                 }
                 .pickerStyle(MenuPickerStyle())
-
+                
                 Toggle(isOn: viewStore.binding(
                     get: \.upcomingCurrentYearOnly,
-                    send: HolidaySearchAction.handleUpcomingCurrentYearOnlyChange
+                    send: HolidaySearchAction.updateUpcomingCurrentYearOnly
                 )) {
                     Text("Upcoming in Current Year Only")
                 }
                 .padding()
-
-                TextField("Enter Year (current year to 2073)", text: viewStore.binding(
-                    get: \.yearSearch,
-                    send: HolidaySearchAction.validateYearInput
-                ))
-                .keyboardType(.numberPad)
+                
+                YearPickerView(
+                    selectedYear: viewStore.binding(
+                        get: \.yearSearch,
+                        send: HolidaySearchAction.updateYearSearch
+                    ),
+                    isDisabled: viewStore.upcomingCurrentYearOnly
+                )
                 .padding()
-                .disabled(viewStore.upcomingCurrentYearOnly)
-
+                
                 Button("Submit") {
                     viewStore.send(.submitSearch)
                 }
                 .disabled(!viewStore.isYearValid)
                 .padding()
-
-//                NavigationLink(
-//                    destination: HolidayListView(store: store),
-//                    isActive: viewStore.binding(
-//                        get: \.shouldNavigate,
-//                        send: .setNeedsAirportSelection(false)
-//                    )
-//                ) {
-//                    EmptyView()
-//                }
+                
+                NavigationLink(
+                    destination: HolidayListView(
+                        store: Store(
+                            initialState: viewStore.holidayList.first ?? HolidayListState(),
+                            reducer: holidayListReducer,
+                            environment: HolidayListEnvironment()
+                        )
+                    ),
+                    isActive: viewStore.binding(
+                        get: \.isNavigatingToHolidayList,
+                        send: { _ in HolidaySearchAction.resetNavigationState }
+                    )
+                ) {
+                    EmptyView()
+                }
             }
             .padding()
             .onAppear {
                 viewStore.send(.onAppear)
-                viewStore.send(.setNeedsAirportSelection(viewStore.needsAirportSelection))
             }
-//            .sheet(isPresented: viewStore.binding(
-//                get: \.needsAirportSelection,
-//                send: .setNeedsAirportSelection
-//            )) {
-//                AirportSelectionView(store: store)
-//            }
         }
     }
 }
